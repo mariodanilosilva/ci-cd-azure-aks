@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  azure-back-app:
+    build: back
+    image: azure-back-app
+    container_name: azure-back-app
+    networks:
+      - azure-network
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+  azure-front-app:
+    build: front
+    image: azure-front-app
+    container_name: azure-front-app
+    networks:
+      - azure-network
+    environment:
+      VUE_APP_BACKEND: http://localhost:3000
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    depends_on:
+      - azure-back-app
+
+networks:
+  azure-network:
+    driver: bridge

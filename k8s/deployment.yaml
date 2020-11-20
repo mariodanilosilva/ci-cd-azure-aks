@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-back
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: azure-back-app
+  template:
+    metadata:
+      labels:
+        app: azure-back-app
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+        - name: azure-back
+          image: mariodanilosilva/azure-back-app:v1
+          ports:
+            - containerPort: 3000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: azure-front-app
+  template:
+    metadata:
+      labels:
+        app: azure-front-app
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+        - name: azure-front
+          image: mariodanilosilva/azure-front-app:v3
+          ports:
+            - containerPort: 80
+          env:
+            - name: VUE_APP_BACKEND
+              value: "http://40.119.3.82:3000"
