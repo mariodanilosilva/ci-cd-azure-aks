@@ -16,5 +16,5 @@ app.listen(3000, function () {
 })
 
 app.get('/api', function (req, res) {
-  res.json({name: 'Mário Danilo Silva'})
+  res.json({name: 'Mário Silva'})
 })
